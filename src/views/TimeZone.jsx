@@ -1,10 +1,7 @@
-function TimeZone({ onCompletion }) {
-    const timeZones = new Map([
-        [1, 'America/New_York'],
-        [2, 'Europe/London'],
-        [3, 'Asia/Hong_Kong'],
-    ]);
-    
+import { useState } from "react";
+
+function TimeZone() {
+    const [city, setCity] = useState('')
     const date = new Date();
     const newYork = {timeZone: 'America/New_York'};
     const newYorkTime = date.toLocaleString('en-US', newYork);
@@ -12,18 +9,22 @@ function TimeZone({ onCompletion }) {
     const london = {timeZone: 'Europe/London'};
     const londonTime = date.toLocaleString('en-US', london);
     
+    const handleChange = (e) => {
+        setCity(e.target.value);
+    }
 
     return (
         <>
-            <select required name="Country">
-                <option value="1">Please select</option>
-                <option value="2">New York</option>
-                <option value="3">London</option>
-                <option value="4">Hong Kong</option>
+            <select required name="Country" onChange={handleChange}>
+                <option value="">Please select</option>
+                <option value="America/New_York">New York</option>
+                <option value="Europe/London">London</option>
+                <option value="Asia/Hong_Kong">Hong Kong</option>
             </select>
 
             <h1>{newYorkTime}</h1>
             <h1>{londonTime}</h1>
+            <h1>{city}</h1>
         </>
       );
 }
