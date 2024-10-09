@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const TimeZone = () => {
@@ -8,9 +8,15 @@ const TimeZone = () => {
     const [deleteCityVisibility, setDeleteCityVisibility] = useState(false);
     const [inputFlag, setInputFlag] = useState('');
 
-    const isCityVoid = () => {
-        if (city.trim() === '') {
-            alert("A void field? That's not original");
+    useEffect(() => {
+        const storedExcludedCities = JSON.parse(localStorage.getItem('excludedCities')) || [];
+        const excludedMap = new Map(storedExcludedCities.map(city => [city, true]));
+        setDeletedTimeZones(excludedMap);
+    }, []);
+
+    const cityIsExcluded = () => {
+        if (deletedTimeZones.has(city)) {
+            alert('The typed city is excluded');
             return true;
         }
         return false;
@@ -20,15 +26,19 @@ const TimeZone = () => {
         setDeletedTimeZones((prevZones) => {
             const newMap = new Map(prevZones);
             newMap.set(inputFlag, true);
+
+            const updatedExcludedCities = Array.from(newMap.keys());
+            localStorage.setItem('excludedCities', JSON.stringify(updatedExcludedCities));
+
             return newMap;
         });
         setInputFlag('');
-        setDeleteCityVisibility(false); // Hide input after deletion
+        setDeleteCityVisibility(false);
     };
 
-    const cityIsExcluded = () => {
-        if (deletedTimeZones.has(city)) {
-            alert('The typed city is excluded')
+    const isCityVoid = () => {
+        if (city.trim() === '') {
+            alert("A void field? That's not original");
             return true;
         }
         return false;
