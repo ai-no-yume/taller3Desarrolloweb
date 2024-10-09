@@ -8,7 +8,11 @@ const TimeZone = () => {
     const handleSearch = async () => {
         const openweatherAPIKey = import.meta.env.VITE_OPENWEATHERMAP_KEY;
         const timezonedbAPIKey = import.meta.env.VITE_TIMEZONEDB_KEY;
+        /*
+        test purposes, no longer needed
         alert(openweatherAPIKey)
+        alert(timezonedbAPIKey)
+        */
         try {
             // [openweathermap] learnings
             /*
