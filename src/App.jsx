@@ -1,5 +1,5 @@
-import { useState } from 'react';
 import TimeZone from './views/TimeZone.jsx';
+import './index.css'
 
 function App() {
 
